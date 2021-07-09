@@ -14,5 +14,10 @@ pipeline {
             sh 'mvn package'
             }
         }
-    }  
+        stage('nexus upload'){
+            steps{
+            nexusArtifactUploader artifacts: [[artifactId: 'hello-world-war', classifier: '', file: 'target/hello-world-war', type: 'war']], credentialsId: 'nexus_jaga', groupId: 'mno', nexusUrl: 'http://18.119.117.224:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'jaga', version: '$BUILD_NUMBER'
+            }
+        }  
+    }
 }
